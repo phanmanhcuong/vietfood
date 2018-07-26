@@ -24,6 +24,6 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::group(['middleware' => ['auth']], function(){
-    Route::resource('users', 'UsersController', ['only' => ['showProfile', 'showPosts']]);
-    
+    Route::get('users/{id}', 'UsersController@showEditProfileForm')->name('users.edit_profile_get');
+    Route::put('users/{id}', 'UsersController@edit_profile')->name('users.edit_profile_post');
 });
