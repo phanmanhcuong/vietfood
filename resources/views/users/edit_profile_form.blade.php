@@ -6,7 +6,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            {!! Form::model($user, ['route' => ['users.edit_profile_post', $user->id], 'method' => 'put']) !!}
+            {!! Form::model($user, ['route' => ['users.edit_profile_post', $user->id], 'method' => 'put', 'enctype' => 'multipart/form-data']) !!}
                 <div class="form-group">
                     {!! Form::label('name', 'Name') !!}
                     {!! Form::text('name', $user->name, ['class' => 'form-control']) !!}
@@ -28,27 +28,16 @@
                     {!! Form::label('birthday', 'Birthday') !!}
                     {!! Form::text('birthday', $user->birthday, array('class' => 'form-control', 'placeholder' => '2000-01-31')) !!}
                 </div>
+    
                 <div class="form-group">
-                    @if ($user->avatar_url != null)
-                        {!! $user->avatar_url !!}
-                    @endif
                     {!! Form::label('image', 'Avatar') !!}
-                    {!! Form::file('image', ['class' => 'form-control']) !!}
+                    <div class="avatar">
+                        @if ($user->avatar_url != null)
+                            <center><img src="{!! $user->avatar_url !!}" width="20%" height="20%" align="center"></center>
+                        @endif
+                    </div>
+                    {!! Form::file('image1', ['class' => 'form-control']) !!}
                 </div>
-                <!--<div class="form-group">-->
-                <!--    {!! Form::label('email', 'Email') !!}-->
-                <!--    {!! Form::email('email', old('email'), ['class' => 'form-control']) !!}-->
-                <!--</div>-->
-                
-                <!--<div class="form-group">-->
-                <!--    {!! Form::label('password', 'Password') !!}-->
-                <!--    {!! Form::password('password', ['class' => 'form-control']) !!}-->
-                <!--</div>-->
-                
-                <!--<div class="form-group">-->
-                <!--    {!! Form::label('password_confirmation', 'Confirmation') !!}-->
-                <!--    {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}-->
-                <!--</div>-->
                 
                 {!! Form::submit('Save', ['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
