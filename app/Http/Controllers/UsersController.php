@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\Post;
 
 class UsersController extends Controller
 {
@@ -33,19 +34,10 @@ class UsersController extends Controller
             $user->birthday = $format_birthday;
         }
         
-        //if($request->hasfile('image')){
-            // $file = $request->file('image');
-            // $name = time().$file->getClientOriginalName();
-            // $filePath = 'images/' . $name;
-            // Storage::disk('s3')->put($filePath, file_get_contents($file));
-            // $user->avatar_url = $filePath;
-        //}    
-            //new code
-            $file = $request->file('image1');
-            //dd($file);
-            $path = Storage::disk('s3')->putFile('avatar-folder', $file, 'public');
-            $url = Storage::disk('s3')->url($path);
-            $user->avatar_url = $url;
+        $file = $request->file('image1');
+        $path = Storage::disk('s3')->putFile('avatar-folder', $file, 'public');
+        $url = Storage::disk('s3')->url($path);
+        $user->avatar_url = $url;
         
         $user->save();
         return redirect()->back();
