@@ -24,11 +24,17 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::group(['middleware' => ['auth']], function(){
+    /* user profile */
     Route::get('users/{id}', 'UsersController@showEditProfileForm')->name('users.edit_profile_get');
     Route::put('users/{id}', 'UsersController@edit_profile')->name('users.edit_profile_post');
-    /* 
-    Route::get('posts', 'PostsController@showPostForm')->name('posts.post_register_get');
-    Route::post('posts', 'PostsController@register_post')->name('posts.post_register_post'); 
-    */
+    
+    /* post */
     Route::resource('posts', 'PostsController', ['only' => ['create', 'store', 'show', 'edit', 'update', 'destroy']]);
+    
+    /* like post */
+    Route::group(['prefix' => 'users/{id}'], function(){
+        Route::post('like', 'UserLikeController@like')->name('user_like.like');
+        Route::delete('like', 'UserLikeController@unlike')->name('user_like.unlike');
+        Route::get('is_like', 'UserLikeController@is_like')->name('user_like.is_like');
+    });
 });

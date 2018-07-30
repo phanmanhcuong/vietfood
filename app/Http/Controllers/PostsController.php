@@ -27,8 +27,10 @@ class PostsController extends Controller
     }
     
     public function show($id){
-        $post = Post::find($id);
-        
+        $post = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->select('posts.*', \DB::raw('COUNT(*) as like_count'))->where('posts.id', $id)->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at')->first();
+        if($post == null){
+            $post = Post::find($id);
+        }
         return view('posts.show', ['post' => $post]);
     }
     
