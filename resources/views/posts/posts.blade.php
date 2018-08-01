@@ -5,16 +5,18 @@
                     <div class="col-md-4 col-sm-6 col-xs-8">
                         <div class="panel panel-default">
                             <div class="panel-heading text-center">
-                                <img src="{{ $post->image_url }}" width="100%" height="100%" alt="">
+                                <img src="{{ $post->image_url }}" width="300px" height="250px" alt="">
                             </div>
                             <div class="panel-body text-center">
                                 @if ($post->id)
-                                    <p class="post-content"><a href="{{ route('posts.show', $post->id) }}">{{ $post->content }}</a></p>
+                                    <p class="post-title">タイトル：<a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></p>
                                 @else
-                                    <p class="item-content"><a href="#">{{ $post->content }}</a></p>
+                                    <p class="item-title">タイトル：<a href="#">{{ $post->title }}</a></p>
                                 @endif
                                 
-                                <p class="post-content">{{ $post->restaurant_name }}</p>
+                                <p class="post-content">評価：{{ nl2br(e($post->content)) }}</p>
+                                
+                                <p class="post-content">店：{{ $post->restaurant_name }}</p>
                                 
                                 <div class="buttons text-center">
                                     @if (isset($post->like_count))

@@ -19,6 +19,11 @@
                 </div>
                 
                 <div class="form-group">
+                    {!! Form::label('title', 'Title') !!}
+                    {!! Form::text('title', old('title'), ['class' => 'form-control']) !!}
+                </div>
+                
+                <div>
                     {!! Form::label('content', 'Content') !!}
                     {!! Form::text('content', old('content'), ['class' => 'form-control']) !!}
                 </div>

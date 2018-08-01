@@ -10,7 +10,7 @@ class WelcomeController extends Controller
 {
     public function index(){
         //get posts which are liked
-        $posts_like = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->select('posts.*', \DB::raw('COUNT(*) as like_count'))->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at')->orderBy('posts.updated_at', 'DESC')->get();
+        $posts_like = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->select('posts.*', \DB::raw('COUNT(*) as like_count'))->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.title', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at')->orderBy('posts.updated_at', 'DESC')->get();
         
         //get posts which are not liked
         $id_not_like = \DB::table('user_like')->select('post_id');

@@ -5,3 +5,7 @@ footer {
 .avatar{
     margin-bottom: 10px;
 }
+
+.buttons-showview{
+    display: inline-block;
+}
