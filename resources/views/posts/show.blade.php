@@ -23,8 +23,26 @@
                         @if (Auth::check())
                             @include('posts.like_button', ['post' => $post])
                         @endif
+                        
                     </div>
                 </div>
+            
+                @if (count($comments) > 0)
+                    <div class="panel panel-default">
+                        <div class="panel panel-heading text-center">
+                            <p>Comments</p>
+                        </div>
+                        <div class="panel panel-body">
+                            @foreach ($comments as $comment)
+                                <img src="{{ $comment->avatar_url}}" width="20px" height="20px"></img> 
+                                <a href="#">{{ $comment->name }}</a>
+                                {{ $comment->content }}<p></p>
+                            @endforeach
+                            
+                        </div>
+                    </div>        
+                @endif
+                
             </div>
         </div>
         
@@ -61,16 +79,30 @@
                     </div>
                 </div>
             </div>
-            
+                      
             @if (Auth::id() == $post->user_id)
                 <div class="buttons-showview">
                     {!! link_to_route('posts.edit', 'Edit Post', ['id' => $post->id], ['class' => 'btn btn-success']) !!}
-                    
+                            
                     {!! Form::model($post, ['route' => ['posts.destroy', $post->id], 'method' => 'delete', 'style' => 'display:inline-block']) !!}  
                         {!! Form::submit('Delete Post', ['class' => 'btn btn-danger']) !!}
                     {!! Form::close() !!}
                 </div>
             @endif
+            
+            @if (Auth::check())
+                <div class="comment-form">
+                    {!! Form::open(['route' => ['comments.create', Auth::id(), $post->id]]) !!}
+                        <div class="form-group">
+                            {!! Form::label('content', 'Write Comment') !!}
+                            {!! Form::text('content', old('content'), ['class' => 'form-control']) !!}
+                       </div>
+                        
+                        {!! Form::submit('Comment', ['class' => 'btn btn-primary btn-block']) !!}
+                    {!! Form::close() !!}
+                </div>
+            @endif
+
         </div>
     </div>
 @endsection

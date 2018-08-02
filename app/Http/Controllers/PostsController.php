@@ -31,7 +31,13 @@ class PostsController extends Controller
         if($post == null){
             $post = Post::find($id);
         }
-        return view('posts.show', ['post' => $post]);
+        
+        //$comments = \DB::table('comments')->join('users', 'comments.user_id', '=', 'users.id')->select('comments.*, users.name, users.id')->where('post_id', $id)->groupBy('comments.id, comments.user_id, comments.post_id, comments.content, comments.created_at, comments.updated_at')->orderBy('comments.updated_at', 'DESC')->get();
+        $comments = \DB::select("select comments.*, users.name, users.avatar_url, users.id from comments join users on comments.user_id = users.id where comments.post_id = :id", ['id' => $id]);
+        return view('posts.show', [
+            'post' => $post, 
+            'comments' => $comments,
+            ]);
     }
     
     public function edit($id){
@@ -76,4 +82,5 @@ class PostsController extends Controller
         
         return redirect('/');
     }
+    
 }

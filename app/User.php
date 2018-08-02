@@ -60,4 +60,8 @@ class User extends Authenticatable
     public function is_like($postId){
         return $this->like_posts()->where('post_id', $postId)->exists();
     }
+    
+    public function comments(){
+        return $this->hasMany(UserComment::class);
+    }
 }

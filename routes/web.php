@@ -27,6 +27,9 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 // Ranking
 Route::get('ranking/like', 'RankingController@like')->name('ranking.like');
 
+//Comment
+Route::post('comments/{userId}/{postId}', 'CommentsController@comment')->name('comments.create');
+
 Route::group(['middleware' => ['auth']], function(){
     /* user profile */
     Route::get('users/{id}', 'UsersController@showEditProfileForm')->name('users.edit_profile_get');
@@ -42,3 +45,4 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('is_like', 'UserLikeController@is_like')->name('user_like.is_like');
     });
 });
+

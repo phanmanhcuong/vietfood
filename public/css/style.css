@@ -9,3 +9,7 @@ footer {
 .buttons-showview{
     display: inline-block;
 }
+
+.comment-form{
+    margin-top:20px;
+}
