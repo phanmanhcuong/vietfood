@@ -32,11 +32,16 @@
                         <div class="panel panel-heading text-center">
                             <p>Comments</p>
                         </div>
-                        <div class="panel panel-body">
+                        <div class="panel panel-body comment-content">
                             @foreach ($comments as $comment)
-                                <img src="{{ $comment->avatar_url}}" width="20px" height="20px"></img> 
+                                @if ($comment->avatar_url != null)
+                                    <img src="{{ $comment->avatar_url}}" width="20px" height="20px"></img> 
+                                @else
+                                    <img src="{{ Gravatar::src($comment->email, 20) }}" alt="">
+                                @endif
+                                
                                 <a href="#">{{ $comment->name }}</a>
-                                {{ $comment->content }}<p></p>
+                                {{ ($comment->content) }}<p></p>
                             @endforeach
                             
                         </div>

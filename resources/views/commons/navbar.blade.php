@@ -16,7 +16,15 @@
                         <li>{!! link_to_route('ranking.like', 'Like Ranking') !!}</li>
                         <li>{!! link_to_route('posts.create', 'Create Post') !!}</li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                @if (Auth::user()->avatar_url != null)
+                                    <img class="img-rounded" src="{{ Auth::user()->avatar_url }}" width="20px" height="20px"></img>
+                                @else
+                                    <img class="img-rounded" src="{{ Gravatar::src(Auth::user()->email, 20) }}" alt="">
+                                @endif
+                                {{ Auth::user()->name }} 
+                                <span class="caret">
+                            </a>
                             <ul class="dropdown-menu">
                                 <li>{!! link_to_route('users.edit_profile_get', 'My profile', ['id' => Auth::id()]) !!}</li>
                                 <li role="separator" class="divider"></li>

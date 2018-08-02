@@ -33,7 +33,7 @@ class PostsController extends Controller
         }
         
         //$comments = \DB::table('comments')->join('users', 'comments.user_id', '=', 'users.id')->select('comments.*, users.name, users.id')->where('post_id', $id)->groupBy('comments.id, comments.user_id, comments.post_id, comments.content, comments.created_at, comments.updated_at')->orderBy('comments.updated_at', 'DESC')->get();
-        $comments = \DB::select("select comments.*, users.name, users.avatar_url, users.id from comments join users on comments.user_id = users.id where comments.post_id = :id", ['id' => $id]);
+        $comments = \DB::select("select comments.*, users.email, users.name, users.avatar_url, users.id from comments join users on comments.user_id = users.id where comments.post_id = :id order by updated_at DESC", ['id' => $id]);
         return view('posts.show', [
             'post' => $post, 
             'comments' => $comments,
@@ -83,4 +83,33 @@ class PostsController extends Controller
         return redirect('/');
     }
     
+    public function search(){
+        $keyword = request()->keyword;
+        if ($keyword){
+            $posts_like = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->select('posts.*', \DB::raw('COUNT(*) as like_count'))->where('posts.title', 'like', "%$keyword%")->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.title', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at')->orderBy('posts.updated_at', 'DESC')->get();
+        
+            //get posts which are not liked
+            $id_not_like = \DB::table('user_like')->select('post_id');
+            $posts_no_like = \DB::table('posts')->select('posts.*')->where('posts.title', 'like', "%$keyword%")->whereNotIn('id', $id_not_like)->get();
+            
+            //put 2 arrays into 1
+            foreach ($posts_like as $like){
+                $posts[] = $like;
+            }
+            foreach ($posts_no_like as $no_like){
+                $posts[] = $no_like;
+            }
+            
+            //sort new array by update_at
+            usort($posts, function($a, $b) {
+                return $b->updated_at <=> $a->updated_at;
+            });
+            
+        }
+        
+        return view('welcome', [
+            'posts' => $posts,
+            'keyword' => $keyword,
+        ]);
+    }
 }

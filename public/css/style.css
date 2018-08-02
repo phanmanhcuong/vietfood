@@ -13,3 +13,11 @@ footer {
 .comment-form{
     margin-top:20px;
 }
+
+.comment-content {
+    word-break: break-all;
+}
+
+.search{
+    margin-bottom: 20px;
+}

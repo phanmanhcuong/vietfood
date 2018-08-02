@@ -30,6 +30,9 @@ Route::get('ranking/like', 'RankingController@like')->name('ranking.like');
 //Comment
 Route::post('comments/{userId}/{postId}', 'CommentsController@comment')->name('comments.create');
 
+//Search
+Route::get('posts/search', 'PostsController@search')->name('posts.search');
+
 Route::group(['middleware' => ['auth']], function(){
     /* user profile */
     Route::get('users/{id}', 'UsersController@showEditProfileForm')->name('users.edit_profile_get');
