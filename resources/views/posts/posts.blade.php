@@ -2,12 +2,12 @@
         <div class="row">
             @foreach ($posts as $post)
                 <div class="post">
-                    <div class="col-md-4 col-sm-6 col-xs-8">
-                        <div class="panel panel-default">
+                    <div class="col-md-4 col-sm-4 col-xs-8">
+                        <div class="panel panel-default text-left">
                             <div class="panel-heading text-center">
                                 <img src="{{ $post->image_url }}" width="300px" height="250px" alt="">
                             </div>
-                            <div class="panel-body text-center">
+                            <div class="panel-body text-left">
                                 @if ($post->id)
                                     <p class="post-title">Title：<a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></p>
                                 @else
