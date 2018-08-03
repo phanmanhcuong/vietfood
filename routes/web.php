@@ -46,6 +46,12 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('like', 'UserLikeController@like')->name('user_like.like');
         Route::delete('like', 'UserLikeController@unlike')->name('user_like.unlike');
         Route::get('is_like', 'UserLikeController@is_like')->name('user_like.is_like');
+        Route::get('show_posts', 'UsersController@show_posts')->name('users.show_posts');
+        
+            
+        // search users'posts
+        Route::get('search_posts', 'UsersController@search_posts')->name('users.search_posts');
+
     });
 });
 

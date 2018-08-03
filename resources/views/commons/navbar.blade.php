@@ -26,7 +26,8 @@
                                 <span class="caret">
                             </a>
                             <ul class="dropdown-menu">
-                                <li>{!! link_to_route('users.edit_profile_get', 'My profile', ['id' => Auth::id()]) !!}</li>
+                                <li>{!! link_to_route('users.edit_profile_get', 'My Profile', ['id' => Auth::id()]) !!}</li>
+                                <li>{!! link_to_route('users.show_posts', 'My Posts', ['id' => Auth::id()]) !!}</li>
                                 <li role="separator" class="divider"></li>
                                 <li>{!! link_to_route('logout.get', 'Logout') !!}</li>
                             </ul>

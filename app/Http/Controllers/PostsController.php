@@ -27,13 +27,12 @@ class PostsController extends Controller
     }
     
     public function show($id){
-        $post = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->select('posts.*', \DB::raw('COUNT(*) as like_count'))->where('posts.id', $id)->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.title', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at')->first();
+        $post = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->join('users', 'posts.user_id', '=', 'users.id')->select('posts.*', \DB::raw('users.name as user_name, users.id as user_id, COUNT(*) as like_count'))->where('posts.id', $id)->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.title', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at', 'users.name', 'users.id')->first();
         if($post == null){
             $post = Post::find($id);
         }
         
-        //$comments = \DB::table('comments')->join('users', 'comments.user_id', '=', 'users.id')->select('comments.*, users.name, users.id')->where('post_id', $id)->groupBy('comments.id, comments.user_id, comments.post_id, comments.content, comments.created_at, comments.updated_at')->orderBy('comments.updated_at', 'DESC')->get();
-        $comments = \DB::select("select comments.*, users.email, users.name, users.avatar_url, users.id from comments join users on comments.user_id = users.id where comments.post_id = :id order by updated_at DESC", ['id' => $id]);
+        $comments = \DB::select("select comments.*, users.email, users.name as user_name, users.avatar_url, users.id as user_id from comments join users on comments.user_id = users.id where comments.post_id = :id order by updated_at DESC", ['id' => $id]);
         return view('posts.show', [
             'post' => $post, 
             'comments' => $comments,

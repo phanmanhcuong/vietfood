@@ -40,7 +40,7 @@
                                     <img src="{{ Gravatar::src($comment->email, 20) }}" alt="">
                                 @endif
                                 
-                                <a href="#">{{ $comment->name }}</a>
+                                <a href="{{ route('users.show_posts', $comment->user_id) }}">{{ $comment->user_name }}</a>
                                 {{ ($comment->content) }}<p></p>
                             @endforeach
                             
@@ -52,6 +52,17 @@
         </div>
         
         <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="post-writer">
+                <div class="panel panel-default">
+                    <div class="panel panel-heading text-center">
+                        Writer
+                    </div>
+                    <div class="panel panel-body">
+                        <a href="{{ route('users.show_posts', $post->user_id) }}">{{ $post->user_name }}</a>
+                    </div>
+                </div>
+            </div>
+            
             <div class="post-title">
                 <div class="panel panel-default">
                     <div class="panel panel-heading text-center">

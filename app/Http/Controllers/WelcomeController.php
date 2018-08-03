@@ -10,11 +10,11 @@ class WelcomeController extends Controller
 {
     public function index(){
         //get posts which are liked
-        $posts_like = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->select('posts.*', \DB::raw('COUNT(*) as like_count'))->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.title', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at')->orderBy('posts.updated_at', 'DESC')->get();
+        $posts_like = \DB::table('user_like')->join('posts', 'user_like.post_id', '=', 'posts.id')->join('users', 'posts.user_id', '=', 'users.id')->select('posts.*', \DB::raw('users.name as user_name, users.id as user_id, COUNT(*) as like_count'))->groupBy('posts.id', 'posts.user_id', 'posts.image_url', 'posts.title', 'posts.content', 'posts.restaurant_name', 'posts.created_at', 'posts.updated_at', 'users.name', 'users.id')->get();
         
         //get posts which are not liked
         $id_not_like = \DB::table('user_like')->select('post_id');
-        $posts_no_like = \DB::table('posts')->select('posts.*')->whereNotIn('id', $id_not_like)->get();
+        $posts_no_like = \DB::table('posts')->join('users', 'posts.user_id', '=', 'users.id')->select('posts.*', \DB::raw('users.name as user_name, users.id as user_id'))->whereNotIn('posts.id', $id_not_like)->get();
         
         //put 2 arrays into 1
         foreach ($posts_like as $like){
@@ -32,5 +32,6 @@ class WelcomeController extends Controller
         return view('welcome', [
             'posts' => $posts,
         ]);
+        
     }
 }

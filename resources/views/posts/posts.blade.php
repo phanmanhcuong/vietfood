@@ -9,14 +9,16 @@
                             </div>
                             <div class="panel-body text-center">
                                 @if ($post->id)
-                                    <p class="post-title">タイトル：<a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></p>
+                                    <p class="post-title">Title：<a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></p>
                                 @else
-                                    <p class="item-title">タイトル：<a href="#">{{ $post->title }}</a></p>
+                                    <p class="item-title">Title：<a href="#">{{ $post->title }}</a></p>
                                 @endif
                                 
-                                <p class="post-content">評価：{{ nl2br(e($post->content)) }}</p>
+                                <p class="post-writer">Writer: <a href="{{ route('users.show_posts', $post->user_id) }}">{{ $post->user_name }}</a></p>
                                 
-                                <p class="post-content">店：{{ $post->restaurant_name }}</p>
+                                <p class="post-content">Content：{{ nl2br(e($post->content)) }}</p>
+                                
+                                <p class="post-content">Restaurant：{{ $post->restaurant_name }}</p>
                                 
                                 <div class="buttons text-center">
                                     @if (isset($post->like_count))
